@@ -1,0 +1,98 @@
+
+//Eventos Dojo
+onclick: el usuario hizo clic en un nodo
+onfocus - un nodo recibido foco
+onblur: un nodo estaba 'borroso' o de lo contrario perdió el foco
+onchange: se modificó un valor de entrada
+onkeypress: se dispara cuando el usuario presiona una tecla
+onkeydown: no debería ser necesario usar ... todas las pulsaciones de teclas van a onkeypress
+onkeyup: se activa cuando el usuario suelta una tecla
+onmouseover: se colocó un nodo ( advertencia: puede disparar más de lo que desea debido al burbujeo)
+onmouseout: un nodo no estaba suspendido
+onmouseenter: una versión normalizada de onmouseover que no se disparará más de lo que desea (solo en el primer ingreso)
+onmouseleave: una versión normalizada de onmouseout que no se disparará más de lo que te gustaría (solo una vez al salir)
+onsubmit: se ha enviado un formulario
+
+
+var inputText = dojo.query("[data-viewid=\"palabraClave_text\"]");
+inputText.onkeydown (function (e) {
+console.log(e);
+	if (e.keyCode == 13||e.keyCode == 32||e.shiftKey==true || (e.target.value.length==5&&e.keyCode!=8) || (e.keyCode>=48 && e.keyCode>57)) {
+		e.preventDefault();
+		
+	}
+});
+
+
+
+if (this.context._parentView.context._parentView.context.element.offsetParent.style.overflow == "hidden") {
+	this.context._parentView.context._parentView.context.element.offsetParent.style.overflow = "auto";
+}
+
+
+//remplazar caracteres especiales
+str.replace(/[^a-zA-Z0-9 ]/g, "")
+
+
+//comparar fechas y validar 
+var fechaFin = new Date(tw.local.fechaInicio.toDateString());
+fechaFin.setMonth(fechaFin.getMonth() + 1);
+
+if (new Date(tw.local.fechaFin.toDateString()).getTime() > fechaFin.getTime()) {
+	tw.system.coachValidation.addValidationError("tw.local.fechaFin", "El plazo de fechas no puede ser mayor a 30 dias");
+}
+
+if (new Date(tw.local.fechaFin.toDateString()).getTime() < new Date(tw.local.fechaInicio.toDateString()).getTime()) {
+	tw.system.coachValidation.addValidationError("tw.local.fechaFin", "La fecha de fin, no puede ser menor a la fecha de inicio");
+}
+tw.local.errores = tw.system.coachValidation.validationErrors.length == 0;
+
+
+//validar email 
+var expresionUrl = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+
+
+//ejecutar query en inspector
+var resultado = "";
+try {
+	var sql = "SELECT * FROM REPSOL_ADQUIR_TG_TPV WHERE TIME_STAMP BETWEEN TO_DATE('13/10/2019 00:00:00','dd/mm/YYYY HH24:MI:SS') AND TO_DATE('16/10/2019 23:59:59','dd/mm/YYYY HH24:MI:SS')";
+	var returnType = "XMLElement";
+	var dataSourceName = "jdbc/PerformanceDB";
+
+	var map = new tw.object.Map();
+	map.put("sql", sql);
+	map.put("parameters", null);
+	//map.put("maxRows", null); //DEFAULT
+
+	map.put("returnType", returnType);
+	map.put("dataSourceName", dataSourceName);
+	var response = tw.system.executeServiceByName("SQL Execute Statement", map);
+	var resultado = response.get("results");
+	resultado = "OK - resultado: " + resultado;
+} catch (error) {
+	resultado = "Error: " + error;
+}
+resultado;
+
+
+
+//Funcion para generar eventos a partir de click
+var btn = dojo.query("[data-viewid='Button1']");
+
+require(["dojo/on"],
+	function (on) {
+	var handle = on(btn[0].children[0], "click", function (evt) {
+			console.log("click");
+		});
+
+});
+
+
+
+function rellenarCeros(limiteCeros,variable){
+var out = "";
+for (var i = variable.toString().length; i < limiteCeros; i++) {out += "0";}
+return out+variable.toString();}
+
+
+
