@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+</head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<body id="bloquear">
+    <div class="row">
+        <div class="col-sm-2">
+
+            <select class="form-control disabled-cursor" disabled>
+
+            </select>
+            <span class="spiner-select text-primary" role="status"></span>
+        </div>
+    </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-2">
+            <button class="btn btn-secondary disabled-cursor" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            </button>
+        </div>
+    </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-2">
+            <button class="btn-ejecutar btn btn-primary">Ejecutar</button>
+            <button class="btn-cerrar btn btn-danger">Cerrar</button>
+        </div>
+    </div>
+    </div>
+
+
+
+
+</body>
+<!--Frameworks-->
+
+<!--JS-->
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!--Javascript-->
+<script>
+
+    $(document).ready(function () {
+        //llamar un elemento por clase
+        var x = document.getElementsByClassName("btn-ejecutar")[0];
+        $(x).click(function (e) {
+            alert("Y Naaaaadaaaaaa!!!")
+        });
+
+        var x = document.getElementsByClassName("btn-cerrar")[0];
+        $(x).click(function (e) {
+            $("#bloquear").click(function () {
+                $.blockUI({
+                    message: '<span class="spinner-border text-primary"><span class="sr-only"></span></span>',
+                    css: { border: 'none', backgroundColor: 'transparent' }
+                });
+                setTimeout(() => {
+                    $.unblockUI();
+                    window.close();
+                }, 3000);
+
+            });
+        });
+
+
+    });
+
+
+</script>
+<!--CSS-->
+<style>
+    .spiner-select {
+        position: absolute;
+        right: 45%;
+        width: 1.5rem;
+        height: 1.5rem;
+        top: 15%;
+        animation: spinner-border 1.2s linear infinite;
+        display: inline-block;
+        vertical-align: text-bottom;
+        border: .25em solid currentColor;
+        border-right-color: transparent;
+        border-radius: 50%;
+        border-width: .2em;
+        cursor: not-allowed;
+    }
+
+    .disabled-cursor {
+        cursor: not-allowed;
+    }
+</style>
+
+</html>
