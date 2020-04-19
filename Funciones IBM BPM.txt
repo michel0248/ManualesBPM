@@ -5,94 +5,205 @@ onfocus - un nodo recibido foco
 onblur: un nodo estaba 'borroso' o de lo contrario perdió el foco
 onchange: se modificó un valor de entrada
 onkeypress: se dispara cuando el usuario presiona una tecla
-onkeydown: no debería ser necesario usar ... todas las pulsaciones de teclas van a onkeypress
+onkeydown: no debería ser necesario usar...todas las pulsaciones de teclas van a onkeypress
 onkeyup: se activa cuando el usuario suelta una tecla
-onmouseover: se colocó un nodo ( advertencia: puede disparar más de lo que desea debido al burbujeo)
+onmouseover: se colocó un nodo(advertencia: puede disparar más de lo que desea debido al burbujeo)
 onmouseout: un nodo no estaba suspendido
-onmouseenter: una versión normalizada de onmouseover que no se disparará más de lo que desea (solo en el primer ingreso)
-onmouseleave: una versión normalizada de onmouseout que no se disparará más de lo que te gustaría (solo una vez al salir)
+onmouseenter: una versión normalizada de onmouseover que no se disparará más de lo que desea(solo en el primer ingreso)
+onmouseleave: una versión normalizada de onmouseout que no se disparará más de lo que te gustaría(solo una vez al salir)
 onsubmit: se ha enviado un formulario
 
+var x = bpmext.ui._get1(view, "TableExcp")
+
+var control1 = page.ui.get('');
+
+var control2 = bpmext.ui.getView('');
+
+var control3 = me.ui.getSibling('');
 
 var inputText = dojo.query("[data-viewid=\"palabraClave_text\"]");
-inputText.onkeydown (function (e) {
-console.log(e);
-	if (e.keyCode == 13||e.keyCode == 32||e.shiftKey==true || (e.target.value.length==5&&e.keyCode!=8) || (e.keyCode>=48 && e.keyCode>57)) {
-		e.preventDefault();
-		
-	}
+
+inputText.onkeydown(function (e) {
+    console.log(e);
+    if (e.keyCode == 13 || e.keyCode == 32 || e.shiftKey == true || (e.target.value.length == 5 && e.keyCode != 8) || (e.keyCode >= 48 && e.keyCode > 57)) {
+        e.preventDefault();
+
+    }
 });
 
-
-
 if (this.context._parentView.context._parentView.context.element.offsetParent.style.overflow == "hidden") {
-	this.context._parentView.context._parentView.context.element.offsetParent.style.overflow = "auto";
+    this.context._parentView.context._parentView.context.element.offsetParent.style.overflow = "auto";
 }
-
 
 //remplazar caracteres especiales
 str.replace(/[^a-zA-Z0-9 ]/g, "")
 
-
-//comparar fechas y validar 
+//comparar fechas y validar
 var fechaFin = new Date(tw.local.fechaInicio.toDateString());
 fechaFin.setMonth(fechaFin.getMonth() + 1);
 
 if (new Date(tw.local.fechaFin.toDateString()).getTime() > fechaFin.getTime()) {
-	tw.system.coachValidation.addValidationError("tw.local.fechaFin", "El plazo de fechas no puede ser mayor a 30 dias");
+    tw.system.coachValidation.addValidationError("tw.local.fechaFin", "El plazo de fechas no puede ser mayor a 30 dias");
 }
 
 if (new Date(tw.local.fechaFin.toDateString()).getTime() < new Date(tw.local.fechaInicio.toDateString()).getTime()) {
-	tw.system.coachValidation.addValidationError("tw.local.fechaFin", "La fecha de fin, no puede ser menor a la fecha de inicio");
+    tw.system.coachValidation.addValidationError("tw.local.fechaFin", "La fecha de fin, no puede ser menor a la fecha de inicio");
 }
 tw.local.errores = tw.system.coachValidation.validationErrors.length == 0;
 
-
-//validar email 
+//validar email
 var expresionUrl = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
 
-
-//ejecutar query en inspector
+//consulta traking groups en inspector
 var resultado = "";
 try {
-	var sql = "SELECT * FROM REPSOL_ADQUIR_TG_TPV WHERE TIME_STAMP BETWEEN TO_DATE('13/10/2019 00:00:00','dd/mm/YYYY HH24:MI:SS') AND TO_DATE('16/10/2019 23:59:59','dd/mm/YYYY HH24:MI:SS')";
-	var returnType = "XMLElement";
-	var dataSourceName = "jdbc/PerformanceDB";
+    var sql = "SELECT * FROM REPSOL_ADQUIR_TG_TPV WHERE TIME_STAMP BETWEEN TO_DATE('13/10/2019 00:00:00','dd/mm/YYYY HH24:MI:SS') AND TO_DATE('16/10/2019 23:59:59','dd/mm/YYYY HH24:MI:SS')";
+    var returnType = "XMLElement";
+    var dataSourceName = "jdbc/PerformanceDB";
 
-	var map = new tw.object.Map();
-	map.put("sql", sql);
-	map.put("parameters", null);
-	//map.put("maxRows", null); //DEFAULT
+    var map = new tw.object.Map();
+    map.put("sql", sql);
+    map.put("parameters", null);
+    //map.put("maxRows", null); //DEFAULT
 
-	map.put("returnType", returnType);
-	map.put("dataSourceName", dataSourceName);
-	var response = tw.system.executeServiceByName("SQL Execute Statement", map);
-	var resultado = response.get("results");
-	resultado = "OK - resultado: " + resultado;
+    map.put("returnType", returnType);
+    map.put("dataSourceName", dataSourceName);
+    var response = tw.system.executeServiceByName("SQL Execute Statement", map);
+    var resultado = response.get("results");
+    resultado = "OK - resultado: " + resultado;
 } catch (error) {
-	resultado = "Error: " + error;
+    resultado = "Error: " + error;
 }
 resultado;
-
-
 
 //Funcion para generar eventos a partir de click
 var btn = dojo.query("[data-viewid='Button1']");
 
 require(["dojo/on"],
-	function (on) {
-	var handle = on(btn[0].children[0], "click", function (evt) {
-			console.log("click");
-		});
+    function (on) {
+    var handle = on(btn[0].children[0], "click", function (evt) {
+            console.log("click");
+        });
 
 });
 
+//complementa con n cantidad de 0 a la izquierda
+function rellenarCeros(limiteCeros, variable) {
+    var out = "";
+    for (var i = variable.toString().length; i < limiteCeros; i++) {
+        out += "0";
+    }
+    return out + variable.toString();
+}
+
+//colocar si codigo no se muestra en consola, colocar en codigo Script de CustomHTML
+//# sourceURL=filename.js
 
 
-function rellenarCeros(limiteCeros,variable){
-var out = "";
-for (var i = variable.toString().length; i < limiteCeros; i++) {out += "0";}
-return out+variable.toString();}
+//eliminar caracteres
+function eliminarLetras(cadena) {
+    if (cadena) {
+        var patron = /[a-z]/gi; // la expresión regular incluye las banderas "global g" e "ignore case i"
+        return cadena.replace(patron, "");
+    }
+    return "";
+}
+//Entrar en objetos bpm desde visibility
+page.ui.get("Alert1/ModalAlert").setVisible(true);
 
+//Sort
+select2._instance.itemList.items.sort(function (a, b) {
+    return (a.name < b.name) ? -1 : 1;
+});
 
+//Sort lista Select
+function ordenarListaSelect(lista) {
+    lista._instance.itemList.items.sort(function (a, b) {
+        return (a.name < b.name) ? -1 : 1;
+    })
+    lista._proto._loadListItems(lista, lista._instance.itemList, lista.context.binding.get("value"), lista._instance._optValProp, lista._instance._optDisProp);
+}
 
+//mostrar standby
+var standby;
+require(["dojox/widget/Standby", "dojo/_base/window", "dojo/dom-construct"], function (Standby, win, domConstruct) {
+    standby = new Standby({
+            id: "StandyBy",
+            target: dojo.body(),
+            zIndex: 1000
+        });
+    domConstruct.place(standby.domNode, win.body());
+    standby.startup();
+    standby.show();
+});
+
+function ocultarStandby() {
+    standby.hide();
+    require(["dijit/registry"], function (registry) {
+        var widget = registry.byId("StandyBy");
+        // widget.destroy()
+    });
+
+}
+
+//ForEach
+me.context.options.itemList.get("value").items.forEach(element => {
+    select1.removeItem(element.value);
+});
+
+//----------------------------------------------------------------------------TWSearch--------------------------------------------------------------------------------------------
+
+// Se inicializa objeto
+var twSearch = new TWSearch();
+
+//Se agregan columnas a buscar
+var processInstance = new TWSearchColumn();
+processInstance.type = TWSearchColumn.Types.ProcessInstance;
+processInstance.name = TWSearchColumn.ProcessColumns.Name;
+
+var taskId = new TWSearchColumn();
+taskId.type = TWSearchColumn.Types.Task;
+taskId.name = TWSearchColumn.TaskColumns.ID;
+
+var taskAssignedToUser = new TWSearchColumn();
+taskAssignedToUser.type = TWSearchColumn.Types.Task;
+taskAssignedToUser.name = TWSearchColumn.TaskColumns.AssignedToUser;
+
+var instanceId = new TWSearchColumn();
+instanceId.type = TWSearchColumn.Types.ProcessInstance;
+instanceId.name = TWSearchColumn.ProcessInstanceColumns.ID;
+
+//se agregan columnas de busqueda a objeto
+twSearch.columns = new Array(processInstance, taskId, taskAssignedToUser, instanceId);
+
+//Se definen condiciones de busqueda
+
+var searchCondition = new TWSearchCondition();
+searchCondition.column = instanceId;
+searchCondition.operator = TWSearchCondition.Operations.Equals;
+searchCondition.value = String(tw.system.process.instanceId);
+
+// se agrega condicion de busqueda a objeto
+twSearch.conditions = new Array(searchCondition);
+
+//Se define ordenamiento de arreglo
+//twSearch.organizedBy = TWSearch.OrganizeByTypes.Task;
+
+//Se ejecuta busqueda
+var results = twSearch.execute();
+
+// se parcean resultados a variable local
+if (results && results.rows && results.rows.length >= 1) {
+    tw.local.taskDetails = new tw.object.listOf.BPM_Task();
+    for (var i = 0; i < results.rows.length; i++) {
+        var row = results.rows[i];
+        tw.local.taskDetails[i] = new tw.object.BPM_Task();
+        tw.local.taskDetails[i].proceso = row.values[0].toString();
+        tw.local.taskDetails[i].tarea = row.values[1].toString();
+        tw.local.taskDetails[i].asignadoA = row.values[2] ? row.values[2].toString() : null;
+        tw.local.taskDetails[i].instanceId = row.values[3] ? row.values[3].toString() : null;
+
+    }
+}
+
+//----------------------------------------------------------------------------TWSearch--------------------------------------------------------------------------------------------
