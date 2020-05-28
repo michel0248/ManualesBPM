@@ -207,3 +207,6 @@ if (results && results.rows && results.rows.length >= 1) {
 }
 
 //----------------------------------------------------------------------------TWSearch--------------------------------------------------------------------------------------------
+
+//obtener navegador 
+var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)?"mobile":"desktop"
