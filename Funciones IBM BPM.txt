@@ -13,7 +13,7 @@ onmouseenter: una versión normalizada de onmouseover que no se disparará más 
 onmouseleave: una versión normalizada de onmouseout que no se disparará más de lo que te gustaría(solo una vez al salir)
 onsubmit: se ha enviado un formulario
 
-var x = bpmext.ui._get1(view, "TableExcp")
+var x = bpmext.ui._get1(view, '')
 
 var control1 = page.ui.get('');
 
@@ -209,4 +209,4 @@ if (results && results.rows && results.rows.length >= 1) {
 //----------------------------------------------------------------------------TWSearch--------------------------------------------------------------------------------------------
 
 //obtener navegador 
-var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)?"mobile":"desktop"
+var isMobile = (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Windows Phone/i.test(navigator.userAgent)) ?"mobile":"desktop"
