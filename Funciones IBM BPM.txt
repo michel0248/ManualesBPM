@@ -210,3 +210,20 @@ if (results && results.rows && results.rows.length >= 1) {
 
 //obtener navegador 
 var isMobile = (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Windows Phone/i.test(navigator.userAgent)) ?"mobile":"desktop"
+
+
+//Ajax 
+var _this = this;
+this.context.options.ajaxService({
+    params: {
+        'nombre': 'nombreEjemplo',
+		'edad': 'edadEjemplo'
+    },
+    load: function (data) {
+        console.log(data);
+    },
+    error: function (error) {
+        console.log("Un Error Ha Ocurrido: ", error);
+    }
+});
+
