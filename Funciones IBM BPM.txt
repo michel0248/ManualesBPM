@@ -13,7 +13,7 @@ onmouseenter: una versión normalizada de onmouseover que no se disparará más 
 onmouseleave: una versión normalizada de onmouseout que no se disparará más de lo que te gustaría(solo una vez al salir)
 onsubmit: se ha enviado un formulario
 
-var x = bpmext.ui._get1(view, '')
+var x = bpmext.ui._get1(this, '')
 
 var control1 = page.ui.get('');
 
@@ -226,4 +226,12 @@ this.context.options.ajaxService({
         console.log("Un Error Ha Ocurrido: ", error);
     }
 });
+
+//acceder a elementos de bpm 
+Option 1: ${Your Control Id}.method() // dentro de componente bpm
+Option 2: page.ui.get("Your Control Id").method(); // dentro de customHtml
+
+
+//Validar campos solo numeros dentro de componente de text
+me.context.element.children[0].children[1].children[0].onkeydown = function(event){if(event.key<"0"||event.key>"9"&&event.key!="Backspace"){event.preventDefault()}}
 
