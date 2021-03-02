@@ -214,7 +214,7 @@ var isMobile = (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Windows Phone/i.te
 
 //Ajax 
 var _this = this;
-this.context.options.ajaxService({
+_this.context.options.ajaxService({
     params: {
         'nombre': 'nombreEjemplo',
 		'edad': 'edadEjemplo'
