@@ -1,0 +1,49 @@
+El texto en textbox: 1
+El texto en textbox: 2
+El texto en textbox: 3
+El texto en textbox: 4
+El texto en textbox: 5
+El texto en textbox: 6
+El texto en textbox: 7
+El texto en textbox: 10
+El texto en textbox: 13
+El texto en textbox: 16
+El texto en textbox: 19
+El texto en textbox: 22
+El texto en textbox: 25
+El texto en textbox: 28
+El texto en textbox: 31
+El texto en textbox: 8
+El texto en textbox: 11
+El texto en textbox: 14
+El texto en textbox: 17
+El texto en textbox: 20
+El texto en textbox: 23
+El texto en textbox: 26
+El texto en textbox: 29
+El texto en textbox: 32
+El texto en textbox: 9
+El texto en textbox: 12
+El texto en textbox: 15
+El texto en textbox: 18
+El texto en textbox: 21
+El texto en textbox: 24
+El texto en textbox: 27
+El texto en textbox: 30
+El texto en textbox: 33
+el texto en el radio es: 1
+esta seleccionado el checkbox? false
+esta seleccionado el checkbox? false
+esta seleccionado el checkbox? false
+El texto en textbox: 02 October 2018
+El texto en textbox: 195
+el valor del combobox es: 
+CSE2
+El valor Seleccionado en el combobox es: CSE2
+El texto en textbox: USD
+el valor del combobox es: 
+V10.0
+El valor Seleccionado en el combobox es: V10.0
+El texto en textbox: 19 May 2020
+El texto en textbox: 19 May 2020
+el texto en el radio es: 2
