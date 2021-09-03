@@ -23,6 +23,7 @@ var control3 = me.ui.getSibling('');
 
 var inputText = dojo.query("[data-viewid=\"palabraClave_text\"]");
 
+//validar longitus y caracteres
 inputText.onkeydown(function (e) {
     console.log(e);
     if (e.keyCode == 13 || e.keyCode == 32 || e.shiftKey == true || (e.target.value.length == 5 && e.keyCode != 8) || (e.keyCode >= 48 && e.keyCode > 57)) {
@@ -36,7 +37,7 @@ if (this.context._parentView.context._parentView.context.element.offsetParent.st
 }
 
 //remplazar caracteres especiales
-str.replace(/[^a-zA-Z0-9 ]/g, "")
+str.replace(/[^a-z0-9]/gi, "")
 
 //comparar fechas y validar
 var fechaFin = new Date(tw.local.fechaInicio.toDateString());
@@ -209,7 +210,7 @@ if (results && results.rows && results.rows.length >= 1) {
 //----------------------------------------------------------------------------TWSearch--------------------------------------------------------------------------------------------
 
 //obtener navegador 
-var isMobile = (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Windows Phone/i.test(navigator.userAgent)) ?"mobile":"desktop"
+var isMobile = (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Windows Phone/i.test(navigator.appVersion)) ?"mobile":"desktop"
 
 
 //Ajax 
