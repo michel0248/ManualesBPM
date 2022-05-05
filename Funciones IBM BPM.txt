@@ -15,7 +15,7 @@ onsubmit: se ha enviado un formulario
 
 var x = bpmext.ui._get1(this, '')
 
-var control1 = page.ui.get(''); // desde customHtml
+var control1 = page.ui.get(''); // desde customHtml//accede a elementos desde visibility
 
 var control2 = bpmext.ui.getView('');
 
@@ -24,6 +24,13 @@ var control3 = me.ui.getSibling('');
 var inputText = dojo.query("[data-viewid=\"palabraClave_text\"]");
 
 me._instance// llegas a el componente padre
+
+// Debugg IBM BPM JS
+//# sourceURL=debug.js
+
+//acceder a elementos de bpm 
+Option 1: ${Your Control Id}.method() // dentro de componente bpm
+Option 2: page.ui.get("Your Control Id").method(); // dentro de customHtml
 
 //validar longitud y caracteres
 inputText.onkeydown(function (e) {
@@ -230,13 +237,28 @@ _this.context.options.ajaxService({
     }
 });
 
-//acceder a elementos de bpm 
-Option 1: ${Your Control Id}.method() // dentro de componente bpm
-Option 2: page.ui.get("Your Control Id").method(); // dentro de customHtml
-
 
 //Validar campos solo numeros dentro de componente de text
 me.context.element.children[0].children[1].children[0].onkeydown = function(event){if((event.key < "0" || event.key > "9" || event.target.value.length == 4) && event.key != "Backspace"){event.preventDefault()}}
 
 //en una tabla devuelve el elemento en el mismo nivel de donde se ejecuta 
 me.ui.getSibling("controlID").reloadServiceItems(input);
+
+
+//Consumir rest desde script en CSHS o CouachView
+
+ var xhrArgs = {
+ 	url: "/rest/bpm/wle/v1/process/"+instanceId+"?action=deleteToken&tokenId="+tokenId+"&resume=true&parts=all",
+ 	handleAs:"text",
+ 	headers: {"Accept":"application/json"},
+ 	load:function(data){
+ 	//console.log(data);
+ 	},
+    error: function(error){
+      console.log(error);
+    }
+ }
+ 
+//var deferred = dojo.xhrGet(xhrArgs);
+var deferred = dojo.xhrPost(xhrArgs);
+
