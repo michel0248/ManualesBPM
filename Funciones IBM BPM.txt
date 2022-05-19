@@ -245,7 +245,7 @@ me.context.element.children[0].children[1].children[0].onkeydown = function(even
 me.ui.getSibling("controlID").reloadServiceItems(input);
 
 
-//Consumir rest desde script en CSHS o CouachView
+//Consumir rest desde script en CSHS o CouachView Rest Api
 
  var xhrArgs = {
  	url: "/rest/bpm/wle/v1/process/"+instanceId+"?action=deleteToken&tokenId="+tokenId+"&resume=true&parts=all",
@@ -262,3 +262,19 @@ me.ui.getSibling("controlID").reloadServiceItems(input);
 //var deferred = dojo.xhrGet(xhrArgs);
 var deferred = dojo.xhrPost(xhrArgs);
 
+
+//Consumir Servicio Desde Variable en CoachView
+this.context.options.targetService({
+    params: {
+        bo1: {
+            "a": "A Value",
+            "b": "B Value"
+        }
+    },
+    load: function (ret) {
+        console.log("Returned");
+    },
+    error: function (ret) {
+        debugger;
+    }
+});
