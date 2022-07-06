@@ -278,3 +278,17 @@ this.context.options.targetService({
         debugger;
     }
 });
+
+// Script encode base64
+var value = "abc";
+var bytesValue = new Packages.java.lang.String(value).getBytes("UTF-8");
+var content64 = Packages.org.apache.commons.codec.binary.Base64.encodeBase64(bytesValue);
+tw.local.contentStream = new tw.object.ECMContentStream();
+tw.local.contentStream.contentLength = value.length;
+tw.local.contentStream.mimeType = "text/plain";
+tw.local.contentStream.content = new Packages.java.lang.String(content64, "UTF-8");
+
+// Script decode base64
+var byteValue = Packages.java.lang.String(tw.local.contentStream.content).getBytes();
+var content64 = Packages.org.apache.commons.codec.binary.Base64.decodeBase64(byteValue);
+var value = new java.lang.String(content64, "UTF-8");
