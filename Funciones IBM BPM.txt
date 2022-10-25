@@ -292,3 +292,10 @@ tw.local.contentStream.content = new Packages.java.lang.String(content64, "UTF-8
 var byteValue = Packages.java.lang.String(tw.local.contentStream.content).getBytes();
 var content64 = Packages.org.apache.commons.codec.binary.Base64.decodeBase64(byteValue);
 var value = new java.lang.String(content64, "UTF-8");
+
+
+// validar input con expresion regular test
+me.context.element.children[0].children[1].children[0].onkeypress = function(event){
+	var pattern = /[0-9]/gi;
+	return pattern.test(event.key);
+	}
