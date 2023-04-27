@@ -3,8 +3,10 @@ package org.sofftek.movemouse;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import java.awt.AWTException;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,7 +30,6 @@ public class MoverMouse extends JFrame implements Runnable {
 		this.add(botonIniciar);
 		this.botonIniciar.addActionListener(new ActionListener() {
 
-			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (e.getActionCommand() == "Iniciar") {
@@ -61,10 +62,11 @@ public class MoverMouse extends JFrame implements Runnable {
 
 		while (banderaHilo) {
 			try {
-				int x = (int) (Math.random() * 1300) + 1;
-				int y = (int) (Math.random() * 500) + 1;
+				Dimension screenSize = Toolkit.getDefaultToolkit(). getScreenSize();
+				int x = (int) (Math.random() * screenSize.width) + 1;
+				int y = (int) (Math.random() * screenSize.height) + 1;
 				robot.mouseMove(x, y);
-				Thread.sleep(5000);
+				Thread.sleep(60000);
 
 			} catch (InterruptedException e) {
 				e.printStackTrace();

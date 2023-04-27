@@ -7,21 +7,22 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Base64;
 
-import javax.xml.bind.DatatypeConverter;
+//import javax.xml.bind.DatatypeConverter;
 
 public class ServiciosRest {
 	
 	HttpURLConnection conn;
 
-	public String serviceRestGet(String uri, String parametro, String username,String password) throws IOException {
+	public String serviceRestGet(final String uri, final String parametros, final String username,final String password) throws IOException {
 		String salida = "";
 		URL url = null;
 		
-
+			String parametro = parametros;
 			String userpass = username + ":" + password;
-			String basicAuth = "Basic "+ new String(DatatypeConverter.printBase64Binary(userpass.getBytes("UTF-8")));
-
+			String basicAuth = "Basic "+  Base64.getEncoder().encodeToString(userpass.getBytes("UTF-8"));
+			System.out.println(basicAuth);
 			// agrega el ? en caso de que no lo tenga al inicio
 			if (parametro != null && !parametro.isEmpty()) {
 				char valor = parametro.charAt(0);
@@ -56,9 +57,9 @@ public class ServiciosRest {
 
 	}
 
-	public String serviceRestPost(String uri, String urlParameters) throws IOException {
+	public String serviceRestPost(final String uri,final String urlParameter) throws IOException {
 		String salida = "";
-	
+			String urlParameters = urlParameter;
 			URL url = new URL(remplaceSpecialCaracters(uri));
 			urlParameters = urlParameters.replaceAll("'", "\"");
 			byte[] postData = urlParameters.getBytes("UTF-8"); 
@@ -99,7 +100,7 @@ public class ServiciosRest {
 		return cadena;
 	}
 	
-	/*public static void main(String args[]) {
+	/*public static void main(String args[]) throws IOException {
 	ServiciosRest f = new ServiciosRest();
      System.out.println(f.serviceRestGet("https://lab04bpmpc:9443/rest/bpm/wle/v1/task/84813", "?parts=all","deadmin", "deadmin"));
 	//System.out.println(f.serviceRestGet("http://dummy.restapiexample.com/api/v1/employees", "","", ""));

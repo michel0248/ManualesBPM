@@ -15,7 +15,7 @@ import javax.xml.bind.DatatypeConverter;
 public class ServiciosRest {
 	
 	HttpURLConnection conn;
-	public String serviceRestGet(String uri, String parametro, String username,String password) {
+	public String serviceRestGet(final String uri, final String parametros, final String username,final String password) {
 		String salida = "";
 		URL url = null;
 	  
@@ -23,14 +23,14 @@ public class ServiciosRest {
 
 			String userpass = username + ":" + password;
 			String basicAuth = "Basic "+ new String(DatatypeConverter.printBase64Binary(userpass.getBytes("UTF-8")));
-
+			String parametro = "";
 			// agrega el ? en caso de que no lo tenga al inicio
-			if (parametro != null && !parametro.isEmpty()) {
-				char valor = parametro.charAt(0);
+			if (parametros != null && !parametros.isEmpty()) {
+				char valor = parametros.charAt(0);
 				if (valor == '?') {
-					parametro = remplaceSpecialCaracters(parametro);
+					parametro = remplaceSpecialCaracters(parametros);
 				} else {
-					parametro = "?" + remplaceSpecialCaracters(parametro);
+					parametro = "?" + remplaceSpecialCaracters(parametros);
 				}
 			}
 
@@ -61,12 +61,12 @@ public class ServiciosRest {
 
 	}
     
-	public String serviceRestPost(String uri, String urlParameters) {
+	public String serviceRestPost(final String uri, final String urlParameters) {
 		String salida = "";
 		try {
 			URL url = new URL(remplaceSpecialCaracters(uri));
-			urlParameters = urlParameters.replaceAll("'", "\"");
-			byte[] postData = urlParameters.getBytes("UTF-8"); 
+			String urlParameter = urlParameters.replaceAll("'", "\"");
+			byte[] postData = urlParameter.getBytes("UTF-8"); 
 			CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("POST");
