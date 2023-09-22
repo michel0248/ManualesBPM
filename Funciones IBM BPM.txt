@@ -15,7 +15,7 @@ onsubmit: se ha enviado un formulario
 
 var x = bpmext.ui._get1(this, '')
 
-var control1 = page.ui.get(''); // desde customHtml//accede a elementos desde visibility
+var control1 = page.ui.get(''); // desde customHtml//accede a elementos desde visibility o desde script cshs parent/CV/componente
 
 var control2 = bpmext.ui.getView(''); // se llaman desde componentes bpmUI y Comportamiento de Couch
 
@@ -23,13 +23,16 @@ var control3 = me.ui.getSibling('');
 
 var inputText = dojo.query("[data-viewid=\"palabraClave_text\"]");
 
+//Obtener elementos lista de tabla
+tabla.ui.getChild("nombreComponente",indiceTabla);
+
 //Obtener Elentnos Dinamicamente desde componente bpm ui
 var elemento parentView.ui.getParent()
 
 me._instance// llegas a el componente padre
 
 // Debugg IBM BPM JS
-//# sourceURL=debug.js
+//# sourceURL=debug-Michel.js
 
 //acceder a elementos de bpm 
 Option 1: ${Your Control Id}.method() // dentro de componente bpm
@@ -357,3 +360,17 @@ this.NombreFuncion = function (){
 
 //Sirve para que el datepiker sobresalga de la tabla con componente bpmui (se aplica a la tabla)
 me.context.element.childNodes[3].childNodes[1].children[0].style.display = "contents";
+
+
+
+//revisar Funcionamiento para subirlo a git
+var datosCliente = this.context.binding ? this.context.binding.get("value") : null;
+
+this.valueChanged = function (event) {
+    this.context.trigger();
+}
+
+if (datosCliente != null) {
+    this.bindingHandler = datosCliente.bind("NumIdentificacion", this.valueChanged, this);
+}
+

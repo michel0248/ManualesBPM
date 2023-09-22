@@ -8,6 +8,7 @@ import com.tulskiy.keymaster.common.*;
 
 public class KeyMaster {
 
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
 		final Provider tomarCaptura = Provider.getCurrentProvider(false);
 		final Provider generarGif = Provider.getCurrentProvider(false);
@@ -17,7 +18,6 @@ public class KeyMaster {
 //	            provider.reset();
 //	            provider.stop();
 //	        }
-//	    });
 
 		tomarCaptura.register(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, InputEvent.CTRL_MASK), key -> {
 			System.out.println("Genera");

@@ -1,16 +1,30 @@
 package org.sofftek.movemouse;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
 import java.awt.AWTException;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 
-public class MoverMouse extends JFrame implements Runnable {
+public class MoverMouse extends JFrame implements Runnable, WindowStateListener, MouseListener {
 
 	/**
 	 * 
@@ -18,28 +32,80 @@ public class MoverMouse extends JFrame implements Runnable {
 	private static final long serialVersionUID = 1L;
 	Robot robot;
 	JButton botonIniciar = new JButton("Iniciar");
+	JButton botonAgregar = new JButton("Agregar");
+	JButton botonEliminar = new JButton("Eliminar");
+	JCheckBox click = new JCheckBox("Click");
+	JPanel panel = new JPanel();
 	boolean banderaHilo = false;
+	DefaultTableModel tableModel = new DefaultTableModel();
+	JTable tabla;
+	Thread hilo;
+	boolean tableValida;
 
 	public MoverMouse() {
-		this.setSize(200, 200);
-		this.setResizable(false);
+		this.setSize(280, 280);
+		// this.setResizable(false);
 		this.setLocationRelativeTo(null);
-		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setLayout(new BorderLayout());
+		this.setAlwaysOnTop(true);
 		this.botonIniciar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 35));
-		this.add(botonIniciar);
+		this.tabla = new JTable(tableModel);
+		this.tabla.setRowSelectionAllowed(false);
+		this.tableModel.addColumn("Posición X");
+		this.tableModel.addColumn("Posición Y");
+		// Se agregan elementos al panel
+		this.panel.setLayout(new FlowLayout());
+		this.panel.add(botonAgregar);
+		this.panel.add(botonEliminar);
+		this.panel.add(click);
+		// se agregan componentes al jframe
+		this.add(botonIniciar, BorderLayout.NORTH);
+		this.add(new JScrollPane(tabla), BorderLayout.CENTER);
+		this.add(panel, BorderLayout.SOUTH);
+		//se hace visible el jframe
+		this.setVisible(true);
+		// se agregan listeners
+		this.addWindowStateListener(this);
+		this.botonIniciar.addMouseListener(this);
 		this.botonIniciar.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (e.getActionCommand() == "Iniciar") {
-					iniciarHilo();
-					botonIniciar.setText("Pausar");
+					tableValida = validarTabla(tableModel);
+					if (tableModel.getRowCount() == 0) {
+						botonIniciar.setText("Pausar");
+						iniciarHilo();
+					} else if (tableModel.getRowCount() > 0 && tableValida == true) {
+						botonIniciar.setText("Pausar");
+						iniciarHilo();
+					}
+
 				} else {
 					detenerHilo();
 					botonIniciar.setText("Iniciar");
 				}
 
+			}
+		});
+
+		this.botonAgregar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tableModel.insertRow(tableModel.getRowCount(), new Object[] { "", "" });
+			}
+		});
+
+		this.botonEliminar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (tableModel.getRowCount() > 0) {
+					tableModel.removeRow(tableModel.getRowCount() - 1);
+
+				}
 			}
 		});
 
@@ -54,35 +120,127 @@ public class MoverMouse extends JFrame implements Runnable {
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")
 		MoverMouse mouse = new MoverMouse();
-
+		new ObtenerPosicionMouse().iniciarHilo();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void run() {
 
 		while (banderaHilo) {
 			try {
-				Dimension screenSize = Toolkit.getDefaultToolkit(). getScreenSize();
-				int x = (int) (Math.random() * screenSize.width) + 1;
-				int y = (int) (Math.random() * screenSize.height) + 1;
-				robot.mouseMove(x, y);
-				Thread.sleep(60000);
+				if (tableModel.getRowCount() == 0) {
+					Thread.sleep(90000);
+					if (banderaHilo == true) {
+						Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+						int x = (int) (Math.random() * screenSize.width) + 1;
+						int y = (int) (Math.random() * screenSize.height) + 1;
+						robot.mouseMove(x, y);
+					}
+				} else if (tableModel.getRowCount() > 0 && tableValida == true) {
+					for (int i = 0; i < tableModel.getRowCount(); i++) {
+						Thread.sleep(150000);
+						if (banderaHilo == true) {
+							int x = Integer.parseInt(tableModel.getValueAt(i, 0).toString());
+							int y = Integer.parseInt(tableModel.getValueAt(i, 1).toString());
+							robot.mouseMove(x, y);
+							if (click.isSelected() == true) {
+								robot.mousePress(InputEvent.BUTTON1_MASK);
+								robot.mouseRelease(InputEvent.BUTTON1_MASK);
+							}
+						}
 
+					}
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 
 		}
+
 	}
 
 	public void iniciarHilo() {
-		Thread hilo = new Thread(this);
-		hilo.start();
+		hilo = new Thread(this);
 		banderaHilo = true;
+		hilo.start();
+
 	}
 
 	public void detenerHilo() {
 		banderaHilo = false;
 	}
+
+	public boolean validarTabla(DefaultTableModel model) {
+		String mensaje = "";
+		boolean valido = false;
+		if (model.getRowCount() > 0) {
+			for (int i = 0; i < model.getRowCount(); i++) {
+				String x = (String) model.getValueAt(i, 0);
+				String y = (String) model.getValueAt(i, 1);
+				if (x.isEmpty() || y.isEmpty()) {
+					mensaje += "Ninguno de las columnas (x , y) en la fila " + (i + 1) + " pueden estar vacios\n";
+				}
+				if (isNumeric(x) == false || isNumeric(y) == false) {
+					mensaje += "Los valores de la columna (x , y) en la   fila " + (i + 1) + " deben ser numericos\n";
+				}
+			}
+			if (!mensaje.isEmpty()) {
+				JOptionPane.showMessageDialog(this, mensaje);
+			} else {
+				valido = true;
+				JOptionPane pane = new JOptionPane("Iniciando.....", JOptionPane.INFORMATION_MESSAGE);
+				JDialog dialog = pane.createDialog(this, "Inciando");
+				dialog.setModal(false);
+				dialog.setVisible(true);
+				new Timer(1500, new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						dialog.setVisible(false);
+					}
+				}).start();
+
+			}
+		}
+		return valido;
+	}
+
+	public static boolean isNumeric(String strNum) {
+		if (strNum == null) {
+			return false;
+		}
+		try {
+			Integer.parseInt(strNum);
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public void windowStateChanged(WindowEvent e) {
+		if (e.getNewState() == 0) {
+			new ObtenerPosicionMouse().iniciarHilo();
+		} else {
+			ObtenerPosicionMouse.detenerHilo();
+		}
+	}
+
+	@Override
+	public void mouseClicked(java.awt.event.MouseEvent e) {}
+	@Override
+	public void mousePressed(java.awt.event.MouseEvent e) {
+		try {
+			tabla.getCellEditor().stopCellEditing();
+		} catch (Exception ex) {
+
+		}
+	}
+	@Override
+	public void mouseReleased(java.awt.event.MouseEvent e) {}
+	@Override
+	public void mouseEntered(java.awt.event.MouseEvent e) {}
+	@Override
+	public void mouseExited(java.awt.event.MouseEvent e) {}
 
 }
