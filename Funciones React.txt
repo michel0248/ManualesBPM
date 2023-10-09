@@ -1,0 +1,9 @@
+//reactjs
+rafc para crear un componente
+
+
+//obtener solo numeros de un string
+cadena.replace(/[^0-9]+/g,"")
+
+
+
