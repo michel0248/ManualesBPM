@@ -1,9 +1,28 @@
-//reactjs
-rafc para crear un componente
+//snippets
+rafc //para crear un componente
+uses //para crear un useState
+
+//crear proyecto react, moverte a la ruta donde crearlo y ejecutar
+npx create-react-app nombreProyecto
+
+//en caso de que falle la instruccion anterior
+npm uninstall -g create-react-app
+npm install -g create-react-app
+
+//para inicializar el proyecto y descgargar dependencias
+npm install
+//para correr el proyecto en el servidor
+npm start
+
+<> </> fragment
 
 
-//obtener solo numeros de un string
-cadena.replace(/[^0-9]+/g,"")
+//Hook son una API de React que nos permite tener estado, y otras características de React, en los componentes creados con una function
+useState - Nos permite crear una variable de estado en nuestro componente y una función para actualizar esa variable
+useEfect - Le estamos indicando a React que el componente tiene que hacer algo después de renderizarse
+useId - Sirve para generar identificadores únicos que se pueden pasar a los atributos de las etiquetas HTML y es especialmente útil para accesibilidad.
+useMemo - Este nos permite memorizar el resultado de una función. Esto quiere decir que si la función que le pasamos como parámetro no ha cambiado, no se ejecuta de nuevo y se devuelve el resultado que ya se había calculado.
 
-
+//vite crear proyecto
+npm create vite@lastest
 
