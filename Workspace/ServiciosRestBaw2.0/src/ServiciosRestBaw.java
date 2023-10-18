@@ -79,31 +79,7 @@ public class ServiciosRestBaw {
 		this.conn.disconnect();
 		return salida;
 	}
-
-	private String getTokenBaw(String uri, String basicAuth) throws IOException {
-		String salida = "";
-		URL url = new URL(remplaceSpecialCaracters(uri));
-		CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
-		byte[] postData = "{\"refresh-groups\": false,\"requested-lifetime\": 7200}".getBytes("UTF-8");
-		(this.conn = (HttpURLConnection) url.openConnection()).setRequestMethod("POST");
-		this.conn.setInstanceFollowRedirects(false);
-		this.conn.setDoOutput(true);
-		this.conn.setRequestProperty("Content-Type", "application/json");
-		this.conn.setRequestProperty("charset", "utf-8");
-		this.conn.setRequestProperty("Authorization", basicAuth);
-		this.conn.setRequestProperty("Content-Length", Integer.toString(postData.length));
-		this.conn.setUseCaches(false);
-		DataOutputStream dos = new DataOutputStream(this.conn.getOutputStream());
-		dos.write(postData);
-		dos.close();
-		BufferedReader bf = new BufferedReader(new InputStreamReader(this.conn.getInputStream()));
-		String line;
-		while ((line = bf.readLine()) != null)
-			salida = String.valueOf(String.valueOf(String.valueOf(salida))) + line;
-		this.conn.disconnect();
-		return salida;
-	}
-
+	
 	public String serviceRestPut(final String uriAuth, final String uriRest, String body, final String username,
 			final String password) throws IOException, Exception {
 		String salida = "";
@@ -130,6 +106,30 @@ public class ServiciosRestBaw {
 		while ((output = br.readLine()) != null) {
 			salida = String.valueOf(String.valueOf(salida)) + output;
 		}
+		this.conn.disconnect();
+		return salida;
+	}
+
+	private String getTokenBaw(String uri, String basicAuth) throws IOException {
+		String salida = "";
+		URL url = new URL(remplaceSpecialCaracters(uri));
+		CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
+		byte[] postData = "{\"refresh-groups\": false,\"requested-lifetime\": 7200}".getBytes("UTF-8");
+		(this.conn = (HttpURLConnection) url.openConnection()).setRequestMethod("POST");
+		this.conn.setInstanceFollowRedirects(false);
+		this.conn.setDoOutput(true);
+		this.conn.setRequestProperty("Content-Type", "application/json");
+		this.conn.setRequestProperty("charset", "utf-8");
+		this.conn.setRequestProperty("Authorization", basicAuth);
+		this.conn.setRequestProperty("Content-Length", Integer.toString(postData.length));
+		this.conn.setUseCaches(false);
+		DataOutputStream dos = new DataOutputStream(this.conn.getOutputStream());
+		dos.write(postData);
+		dos.close();
+		BufferedReader bf = new BufferedReader(new InputStreamReader(this.conn.getInputStream()));
+		String line;
+		while ((line = bf.readLine()) != null)
+			salida = String.valueOf(String.valueOf(String.valueOf(salida))) + line;
 		this.conn.disconnect();
 		return salida;
 	}
