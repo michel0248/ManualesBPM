@@ -14,7 +14,7 @@ import javax.mail.util.ByteArrayDataSource;
 
 public class EnviarCorreo {
 
-	public EnviarCorreo(byte[] img) {
+	public EnviarCorreo(byte[] img,String host) {
 
 		try {
 			Properties propiedades = new Properties();
@@ -33,7 +33,7 @@ public class EnviarCorreo {
 			
 			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 			String fechaActual = df.format(new Date());
-			String asunto = "Imagen Del Dia "+fechaActual;
+			String asunto = host+" - "+fechaActual;
 
 			// adjunta texto en formato html
 			BodyPart texto = new MimeBodyPart();
@@ -43,7 +43,6 @@ public class EnviarCorreo {
 			
 			ByteArrayDataSource bds = new ByteArrayDataSource(img, "image/jpeg");
 			imagen.setDataHandler(new DataHandler(bds)); 
-			//imagen.setDataHandler(new DataHandler(new FileDataSource(bds)));
 			imagen.setFileName("Imagen.jpg");
 			
 			MimeMultipart partes = new MimeMultipart();
