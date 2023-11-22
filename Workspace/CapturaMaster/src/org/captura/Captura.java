@@ -22,12 +22,12 @@ public class Captura extends JFrame implements Runnable {
 	int numberFrame;
 	ArrayList<BufferedImage> archivosFrames;
 
-	static public BufferedImage captureScreen(int Index) throws Exception {
+	static public BufferedImage captureScreen(int Index) throws AWTException, IOException  {
 		//Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		Rectangle screenRectangle = new Rectangle(1366,728);
 		Robot robot = new Robot();
 		BufferedImage image = robot.createScreenCapture(screenRectangle);
-		image = resize(image, 800, 500);
+		//image = resize(image, 800, 500);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		ImageIO.write(image, "png", out);
 		ByteArrayInputStream bais = new ByteArrayInputStream(out.toByteArray());
@@ -40,7 +40,6 @@ public class Captura extends JFrame implements Runnable {
         int h = bufferedImage.getHeight();
         BufferedImage bufim = new BufferedImage(newW, newH, bufferedImage.getType());
         Graphics2D g = bufim.createGraphics();
-        //g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         g.drawImage(bufferedImage, 0, 0, newW, newH, 0, 0, w, h, null);
         g.dispose();
@@ -115,7 +114,7 @@ public class Captura extends JFrame implements Runnable {
 	public void run() {
 		while (banderaHilo) {
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(1);
 				archivosFrames.add(Captura.captureScreen(numberFrame));
 			} catch (Exception e) {
 				e.printStackTrace();
