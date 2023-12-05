@@ -8,13 +8,17 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
+
 import javax.xml.bind.DatatypeConverter;
-import java.net.HttpURLConnection;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.net.HttpURLConnection;
 
 public class ServiciosRestBaw {
 	HttpURLConnection conn;
 
+	@SuppressWarnings("deprecation")
 	public String serviceRestGet(String uriAuth, String uriRest, String parametro, String username, String password)
 			throws IOException, Exception {
 		String salida = "";
@@ -51,6 +55,7 @@ public class ServiciosRestBaw {
 	public String serviceRestPost(String uriAuth, String uriRest, String urlParameters, String username,
 			String password) throws IOException {
 		String salida = "";
+		@SuppressWarnings("deprecation")
 		URL url = new URL(remplaceSpecialCaracters(uriRest));
 		String userpass = String.valueOf(String.valueOf(String.valueOf(username))) + ":" + password;
 		String basicAuth = "Basic " + new String(DatatypeConverter.printBase64Binary(userpass.getBytes("UTF-8")));
@@ -80,6 +85,7 @@ public class ServiciosRestBaw {
 		return salida;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public String serviceRestPut(final String uriAuth, final String uriRest, String body, final String username,
 			final String password) throws IOException, Exception {
 		String salida = "";
@@ -112,6 +118,7 @@ public class ServiciosRestBaw {
 
 	private String getTokenBaw(String uri, String basicAuth) throws IOException {
 		String salida = "";
+		@SuppressWarnings("deprecation")
 		URL url = new URL(remplaceSpecialCaracters(uri));
 		CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
 		byte[] postData = "{\"refresh-groups\": false,\"requested-lifetime\": 7200}".getBytes("UTF-8");
