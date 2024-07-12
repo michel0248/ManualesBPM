@@ -345,3 +345,6 @@ if (datosCliente != null) {
 
 //obtener solo numeros de un string
 cadena.replace(/[^0-9]+/g,"")
+
+//contar caracteres por bytes 
+new Blob(["cádena"]).size

