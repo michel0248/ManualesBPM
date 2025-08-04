@@ -1,4 +1,4 @@
-package org.sofftek.movemouse;
+package org.movemouse;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -20,11 +20,11 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
 
-public class MoverMouse extends JFrame implements Runnable, WindowStateListener, MouseListener {
+
+public class MoverMouse extends JFrame implements Runnable, MouseListener {
 
 	/**
 	 * 
@@ -52,8 +52,8 @@ public class MoverMouse extends JFrame implements Runnable, WindowStateListener,
 		this.botonIniciar.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 35));
 		this.tabla = new JTable(tableModel);
 		this.tabla.setRowSelectionAllowed(false);
-		this.tableModel.addColumn("Posición X");
-		this.tableModel.addColumn("Posición Y");
+		this.tableModel.addColumn("Posici\u00f3n X");
+		this.tableModel.addColumn("Posici\u00f3n Y");
 		// Se agregan elementos al panel
 		this.panel.setLayout(new FlowLayout());
 		this.panel.add(botonAgregar);
@@ -66,7 +66,6 @@ public class MoverMouse extends JFrame implements Runnable, WindowStateListener,
 		//se hace visible el jframe
 		this.setVisible(true);
 		// se agregan listeners
-		this.addWindowStateListener(this);
 		this.botonIniciar.addMouseListener(this);
 		this.botonIniciar.addActionListener(new ActionListener() {
 
@@ -118,12 +117,11 @@ public class MoverMouse extends JFrame implements Runnable, WindowStateListener,
 	}
 
 	public static void main(String[] args) {
-		@SuppressWarnings("unused")
-		MoverMouse mouse = new MoverMouse();
+		new MoverMouse();
 		new ObtenerPosicionMouse().iniciarHilo();
+		      
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void run() {
 
@@ -139,14 +137,16 @@ public class MoverMouse extends JFrame implements Runnable, WindowStateListener,
 					}
 				} else if (tableModel.getRowCount() > 0 && tableValida == true) {
 					for (int i = 0; i < tableModel.getRowCount(); i++) {
-						Thread.sleep(150000);
+						Thread.sleep(5000);
 						if (banderaHilo == true) {
 							int x = Integer.parseInt(tableModel.getValueAt(i, 0).toString());
 							int y = Integer.parseInt(tableModel.getValueAt(i, 1).toString());
 							robot.mouseMove(x, y);
 							if (click.isSelected() == true) {
-								robot.mousePress(InputEvent.BUTTON1_MASK);
-								robot.mouseRelease(InputEvent.BUTTON1_MASK);
+								robot.mousePress(InputEvent.getMaskForButton(MouseEvent.BUTTON1));
+								Thread.sleep(10);
+								robot.mouseRelease(InputEvent.getMaskForButton(MouseEvent.BUTTON1));
+								Thread.sleep(10);
 							}
 						}
 
@@ -217,19 +217,11 @@ public class MoverMouse extends JFrame implements Runnable, WindowStateListener,
 		return true;
 	}
 
-	@Override
-	public void windowStateChanged(WindowEvent e) {
-		if (e.getNewState() == 0) {
-			new ObtenerPosicionMouse().iniciarHilo();
-		} else {
-			ObtenerPosicionMouse.detenerHilo();
-		}
-	}
 
 	@Override
 	public void mouseClicked(java.awt.event.MouseEvent e) {}
 	@Override
-	public void mousePressed(java.awt.event.MouseEvent e) {
+	public void mousePressed(java.awt.event.MouseEvent e) {		
 		try {
 			tabla.getCellEditor().stopCellEditing();
 		} catch (Exception ex) {

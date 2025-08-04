@@ -18,7 +18,7 @@ public class KeyMaster {
 //	            provider.stop();
 //	        }
 
-		tomarCaptura.register(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, InputEvent.CTRL_MASK), key -> {
+		tomarCaptura.register(KeyStroke.getKeyStroke(KeyEvent.VK_CONTROL, InputEvent.CTRL_MASK), key -> {
 			System.out.println("Genera");
 
 		});

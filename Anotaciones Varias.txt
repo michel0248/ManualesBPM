@@ -1,0 +1,2 @@
+//sirve para excluir DTO de cobertura pipeline
+unitTestCoverageExcludes: '**/model/**/*.java 

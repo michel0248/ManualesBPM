@@ -1,4 +1,4 @@
-package org.sofftek.movemouse;
+package org.movemouse;
 
 import java.awt.Frame;
 import java.awt.MouseInfo;
