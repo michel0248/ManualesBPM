@@ -37,7 +37,7 @@ public class EnviarCorreo {
 
 			// adjunta texto en formato html
 			BodyPart texto = new MimeBodyPart();
-			texto.setContent("<b>Hola Imagen del Dia</> "+fechaActual, "text/html");
+			texto.setContent("<b>Imagen del Dia</> "+fechaActual, "text/html");
 			// adjunta imagen al correo
 			BodyPart imagen = new MimeBodyPart();
 			
